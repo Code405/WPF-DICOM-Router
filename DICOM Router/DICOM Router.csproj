@@ -10,9 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\" />
     <Folder Include="Incoming\" />
-    <Folder Include="Images\" />
   </ItemGroup>
 
 </Project>

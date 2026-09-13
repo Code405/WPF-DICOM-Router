@@ -12,6 +12,8 @@
   <ItemGroup>
     <Folder Include="Images\" />
     <Folder Include="Incoming\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\" />
   </ItemGroup>
 
 </Project>

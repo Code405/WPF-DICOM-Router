@@ -18,7 +18,6 @@ namespace DICOM_Router
     {
         public MainWindow()
         {
-            // Init System
             InitializeComponent();
         }
     }

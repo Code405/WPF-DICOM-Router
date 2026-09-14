@@ -19,6 +19,42 @@ namespace DICOM_Router
         public MainWindow()
         {
             InitializeComponent();
+            Launcher();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        // Launcher for starting Background services before use.
+        private async void Launcher()
+        {
+            LoadingProgressBar.Value += await Task.Run(() => loadingDB());
+            LoadingProgressBar.Value += await Task.Run(() => loadingServer());
+            LoadingProgressBar.Value += await Task.Run(() => loadingRules());
+            loadingLabel.Content = "Done Loading";
+            // Load Incoming View after everything is ready.
+        }
+
+
+        // Methods to start indivdual services.
+        private int loadingDB()
+        {
+            Thread.Sleep(3500);
+            return 25;
+        }
+        private int loadingRules()
+        {
+            Thread.Sleep(1500);
+            return 25;
+        }
+        private int loadingServer()
+        {
+            Thread.Sleep(500);
+            return 25;
+        }
+
+
     }
 }

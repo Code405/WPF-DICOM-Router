@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="DICOM Router" Height="600" Width="800" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <!-- Custom Button Generated Code -->
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -62,6 +63,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!-- Custom Button Generated Code -->
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -78,12 +80,24 @@
         <!-- MENU BAR -->
         <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="True" >
             <StackPanel Orientation="Horizontal" Margin="0,0,30,0 " HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Content="Incoming" Margin="5" Width="100" Background="#40B5AD" Foreground="White"/>
+                <Button Content="Incoming" Margin="5" Width="100" Background="Black" Foreground="White" Click="Button_Click"/>
                 <Button Content="Outgoing" Margin="5" Width="100" Background="#4361EE" Foreground="White"/>
                 <Button Content="Server" Margin="5" Width="100" Background="#4361EE" Foreground="White"/>
                 <Button Content="Rules" Margin="5" Width="100" Background="#4361EE" Foreground="White"/>
             </StackPanel>
         </DockPanel>
         <!-- MENU BAR -->
+        <!-- Main Area -->
+        <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
+            <Label Name="loadingLabel" VerticalAlignment="Center" HorizontalAlignment="Center">DICOM Router starting now...</Label>
+            <ProgressBar Minimum="0" 
+             Maximum="100" 
+             Value="25" 
+             Name="LoadingProgressBar" 
+             Foreground="SteelBlue"            
+             Height="20" 
+             Width="300"/>
+        </StackPanel>
+        <!-- Main Area -->
     </Grid>
 </Window>

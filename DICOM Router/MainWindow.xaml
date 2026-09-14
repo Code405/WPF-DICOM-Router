@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DICOM_Router"
         mc:Ignorable="d"
-        Title="DICOM Router" Height="600" Width="800" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+        Title="DICOM Router" Height="600" Width="800" ResizeMode="NoResize" ShowInTaskbar="True" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <!-- Custom Button Generated Code -->
         <Style x:Key="FocusVisual">

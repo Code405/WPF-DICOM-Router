@@ -6,3 +6,4 @@
   <li>Copy or Replace DICOM tags before output</li>
   <li>Time/Date based rules for after hours telemedicine</li>
 </ul>
+<img width="25%" height="25%" alt="GUI-V1" src="https://github.com/user-attachments/assets/f6f6d03f-11a3-4da9-9d11-2be90e22e041" />

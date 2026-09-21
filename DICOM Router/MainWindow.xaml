@@ -4,9 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DICOM_Router"
+        xmlns:viewmodels="clr-namespace:DICOM_Router.ViewModels"
+        xmlns:views="clr-namespace:DICOM_Router.Views"
         mc:Ignorable="d"
         Title="DICOM Router" Height="600" Width="800" ResizeMode="NoResize" ShowInTaskbar="True" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <!-- Data Templates -->
+        <DataTemplate DataType="{x:Type viewmodels:IncomingViewModel}">
+            <views:IncomingView DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:OutgoingViewModel}">
+            <views:OutgoingView DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:RulesViewModel}">
+            <views:RulesView DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:SettingsViewModel}">
+            <views:SettingsView DataContext="{Binding}"/>
+        </DataTemplate>
         <!-- Custom Button Generated Code -->
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -80,15 +95,16 @@
         <!-- MENU BAR -->
         <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="True" >
             <StackPanel Orientation="Horizontal" Margin="0,0,30,0 " HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Content="Incoming" Margin="5" Width="100" Background="Black" Foreground="White" Click="Button_Click"/>
-                <Button Content="Outgoing" Margin="5" Width="100" Background="#4361EE" Foreground="White"/>
-                <Button Content="Server" Margin="5" Width="100" Background="#4361EE" Foreground="White"/>
-                <Button Content="Rules" Margin="5" Width="100" Background="#4361EE" Foreground="White"/>
+                <Button Name="incomingButton" Content="Incoming" Margin="5" Width="100" Background="SteelBlue" Foreground="White" FontWeight="Bold" Visibility="Hidden" Click="incomingButton_Click"/>
+                <Button Name="outgoingButton" Content="Outgoing" Margin="5" Width="100" Background="SteelBlue" Foreground="White" FontWeight="Bold" Visibility="Hidden" Click="outgoingButton_Click"/>
+                <Button Name="serverButton" Content="Settings" Margin="5" Width="100" Background="SteelBlue" Foreground="White" FontWeight="Bold" Visibility="Hidden" Click="serverButton_Click"/>
+                <Button Name="rulesButton" Content="Rules" Margin="5" Width="100" Background="SteelBlue" Foreground="White" FontWeight="Bold" Visibility="Hidden" Click="rulesButton_Click"/>
             </StackPanel>
         </DockPanel>
         <!-- MENU BAR -->
         <!-- Main Area -->
-        <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
+        <ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding}"/> <!-- Entry Point for Views-->
+        <StackPanel Name="LoadingPanel" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
             <Label Name="loadingLabel" VerticalAlignment="Center" HorizontalAlignment="Center">DICOM Router starting now...</Label>
             <ProgressBar Minimum="0" 
              Maximum="100" 

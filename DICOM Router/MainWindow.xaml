@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="DICOM Router" Height="600" Width="800" ResizeMode="NoResize" ShowInTaskbar="True" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <!-- Data Templates -->
+        <!-- Data Templates required for showing views via MVVM -->
         <DataTemplate DataType="{x:Type viewmodels:IncomingViewModel}">
             <views:IncomingView DataContext="{Binding}"/>
         </DataTemplate>

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <!-- Data View of incoming DICOM files-->
+        <!-- Data Grid View of incoming DICOM files-->
         <DataGrid Name="IncomingDataGrid" CanUserAddRows="False" 
                         AutoGenerateColumns="False" HeadersVisibility="Column">
             <DataGrid.Resources>
@@ -20,11 +20,12 @@
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Date" Width="*" Binding="{Binding date}"/>
+                <DataGridTextColumn Header="Date" Width="100" Binding="{Binding date}"/>
                 <DataGridTextColumn Header="Patient ID" Width="150" Binding="{Binding patientID}"/>
                 <DataGridTextColumn Header="Name" Width="150" Binding="{Binding name}"/>
-                <DataGridTextColumn Header="Modality" Width="150" Binding="{Binding modality}"/>
-                <DataGridTextColumn Header="Images" Width="*" Binding="{Binding images}"/>
+                <DataGridTextColumn Header="Modality" Width="75" Binding="{Binding modality}"/>
+                <DataGridTextColumn Header="Images" Width="75" Binding="{Binding images}"/>
+                <DataGridTextColumn Header="SUID" Width="*" Binding="{Binding suid}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

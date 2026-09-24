@@ -12,13 +12,16 @@ namespace DICOM_Router
         public string modality { get; set; }
         public int images { get; set; }
 
-        public IncomingDicomData(DateTime date, int patientID, string name, string modality, int images)
+        public string suid { get; set; }
+
+        public IncomingDicomData(DateTime date, int patientID, string name, string modality, int images, string suid)
         {
             this.date = date;
             this.patientID = patientID;
             this.name = name;
             this.modality = modality;
             this.images = images;
+            this.suid = suid;
         }
     }
 }

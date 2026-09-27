@@ -24,8 +24,10 @@
                 <DataGridTextColumn Header="Patient ID" Width="150" Binding="{Binding patientID}"/>
                 <DataGridTextColumn Header="Name" Width="150" Binding="{Binding name}"/>
                 <DataGridTextColumn Header="Modality" Width="75" Binding="{Binding modality}"/>
-                <DataGridTextColumn Header="Images" Width="75" Binding="{Binding images}"/>
-                <DataGridTextColumn Header="SUID" Width="*" Binding="{Binding suid}"/>
+                <DataGridTextColumn Header="Images" Width="50" Binding="{Binding images}"/>
+                <DataGridTextColumn Header="Rule" Width="100" Binding="{Binding rule}"/>
+                <DataGridTextColumn Header="Device" Width="100" Binding="{Binding device}"/>
+                <DataGridTextColumn Header="Status" Width="*" Binding="{Binding status}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

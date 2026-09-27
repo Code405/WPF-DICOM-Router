@@ -10,6 +10,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DICOM_Router.Views;
 using DICOM_Router.ViewModels;
+using DICOM_Router.Core;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DICOM_Router
 {
@@ -44,12 +47,13 @@ namespace DICOM_Router
             DataContext = new RulesViewModel();
         }
 
+        // This will be Relocated to App.xaml.cs in the future for better structure and organization.
         // Launcher for starting Background services before use.
         private async void Launcher()
         {
             LoadingProgressBar.Value += await Task.Run(() => loadingDB());
             loadingLabel.Content = "Connecting to Database...";
-            LoadingProgressBar.Value += await Task.Run(() => loadingServer());
+            LoadingProgressBar.Value += 25; // Receiver Service Startup Need to figure out how to do this from app.xaml.cs
             loadingLabel.Content = "Starting DICOM Receiver Server";
             LoadingProgressBar.Value += await Task.Run(() => loadingRules());
             loadingLabel.Content = "Loading Rules from Database...";
@@ -61,6 +65,7 @@ namespace DICOM_Router
         }
 
         // Methods to start indivdual services.
+        // Thses need to be moved to app.xaml.cs in the future for better structure and organization.
         private int loadingDB()
         {
             Thread.Sleep(500);
@@ -71,11 +76,16 @@ namespace DICOM_Router
             Thread.Sleep(500);
             return 25;
         }
-        private int loadingServer()
+
+        /*   CLEAN UP MOVED TO APP.XAML.CS
+        async Task LoadingServer()
         {
+
             Thread.Sleep(500);
-            return 25;
-        }
+            //return 25;
+            
+        } 
+        */
 
         // Method to show the menu buttons after loading is complete.
         private void ShowMenu()

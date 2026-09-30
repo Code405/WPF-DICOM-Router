@@ -1,5 +1,6 @@
 <h1>DICOM Router</h1>
 <h3>WPF C# Project with Fellow Oak Library</h3>
+<h1>UNDER CONSTRUCTION. INCOMPLETE/NOT FUNCTIONAL ETA December 2026</h1>
 <p>Receiving incoming DICOM files and send them to configured devices based on custom conditional rules.</p>
 <ul>
   <li>Send all studies where a DICOM value matchs a condition</li>

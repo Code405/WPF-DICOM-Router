@@ -138,34 +138,18 @@ namespace DICOM_Router.Core
                 string incomingFolder =
                     Path.Combine(
                         AppContext.BaseDirectory,
-                        "Incoming"); // TODO: Update this to pull from DB.
+                        "Incoming"); 
 
                 Directory.CreateDirectory(incomingFolder);
 
-                //          Standard way of storage structure for DICOM files:
-                //          /Incoming/StudyInstanceUID/SeriesInstanceUID/SOPInstanceUID.dcm
-                string studyUid =
-                    request.Dataset.GetSingleValue<string>(
-                        DicomTag.StudyInstanceUID);
 
-                string seriesUid =
-                    request.Dataset.GetSingleValue<string>(
-                        DicomTag.SeriesInstanceUID);
-
+                // Store the DICOM file in the Incoming folder with the SOPInstanceUID as the filename.
                 string sopInstanceUid =
                     request.SOPInstanceUID.UID;
 
-                string studyFolder =
-                    Path.Combine(incomingFolder, studyUid);
-
-                string seriesFolder =
-                    Path.Combine(studyFolder, seriesUid);
-
-                Directory.CreateDirectory(seriesFolder);
-
                 string filePath =
                     Path.Combine(
-                        seriesFolder,
+                        incomingFolder,
                         $"{sopInstanceUid}.dcm");
 
                 // Save the DICOM file to the specified path.

@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove="Assets\Kautch-Blue.png" />
+    <None Remove="DB\Database.db" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +27,9 @@
   <ItemGroup>
     <Resource Include="Assets\Kautch-Blue.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="DB\Database.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 

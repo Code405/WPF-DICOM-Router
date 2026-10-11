@@ -16,10 +16,15 @@ namespace DICOM_Router
         // The IHost instance for managing the background service.
         private IHost? _host;
 
+        // Create FileWatcherService variable from core.FileWatcherService.   
+        public FileWatcherService fsw;
+
         // Override the OnStartup method to start the background service when the application starts.
         protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            fsw = new FileWatcherService(); //Initialize a global service with fsw variable. 
 
             _host = Host.CreateDefaultBuilder()
                 .ConfigureServices(services =>
@@ -29,6 +34,8 @@ namespace DICOM_Router
                 .Build();
 
             await _host.StartAsync();
+
+            fsw.Start();
         }
 
         // Override the OnExit method to stop the background service when the application exits.
@@ -39,6 +46,8 @@ namespace DICOM_Router
                 await _host.StopAsync();
                 _host.Dispose();
             }
+
+            fsw?.Dispose(); // Dispose the FileWatcherService when the application exits.
 
             base.OnExit(e);
         }

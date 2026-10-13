@@ -4,6 +4,8 @@ using System.Configuration;
 using System.Data;
 using System.Windows;
 using DICOM_Router.Core;
+using Microsoft.EntityFrameworkCore;
+
 namespace DICOM_Router
 {
     /// <summary>
@@ -23,6 +25,8 @@ namespace DICOM_Router
         protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            //using var db = new DICOM_Router.Models.DicomContext();
 
             fsw = new FileWatcherService(); //Initialize a global service with fsw variable. 
 

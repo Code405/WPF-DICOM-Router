@@ -10,26 +10,41 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\Kautch-Blue.png" />
-    <None Remove="DB\Database.db" />
+    <Compile Remove="Images\**" />
+    <Compile Remove="Incoming\**" />
+    <EmbeddedResource Remove="Images\**" />
+    <EmbeddedResource Remove="Incoming\**" />
+    <None Remove="Images\**" />
+    <None Remove="Incoming\**" />
+    <Page Remove="Images\**" />
+    <Page Remove="Incoming\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Images\" />
-    <Folder Include="Incoming\" />
+    <None Remove="Assets\Kautch-Blue.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DB\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="fo-dicom" Version="5.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\Kautch-Blue.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="DB\Database.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 

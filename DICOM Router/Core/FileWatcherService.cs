@@ -54,11 +54,19 @@ namespace DICOM_Router.Core
             fsw.EnableRaisingEvents = true;
         }
 
-        private void OnCreated(object sender, FileSystemEventArgs e)
+        private async void OnCreated(object sender, FileSystemEventArgs e)
         {
+
             // Send event to subscribers.
-            FileCreated?.Invoke(e.FullPath);
+            FileCreated?.Invoke(e.FullPath);// Are we even going to use this? 
             Debug.WriteLine($"File created: {e.FullPath}");
+
+            // 1. Store into DB and filesystem. Single Static Method to do this.
+            // 2. Add to queue for passing to Rule Engine. 
+            // 3. Rule Engine will be responsible for sending if conditions are met.
+
+            ScuSendService scu = new ScuSendService("localhost", 4104, "SCU", "SCP");
+            await scu.Send(e.FullPath);
         }
 
         private void OnError(object sender, ErrorEventArgs e)

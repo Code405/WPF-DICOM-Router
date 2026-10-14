@@ -95,7 +95,7 @@
         <!-- MENU BAR -->
         <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="True" >
             <StackPanel Orientation="Horizontal" Margin="0,0,30,0 " HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Name="incomingButton" Content="Incoming" Margin="5" Width="100" Background="SteelBlue" Foreground="White" FontWeight="Bold" Visibility="Hidden" Click="incomingButton_Click"/>
+                <Button Name="incomingButton" Content="Incoming" Margin="5" Width="100" Background="Black" Foreground="White" FontWeight="Bold" Visibility="Hidden" Click="incomingButton_Click"/>
                 <Button Name="outgoingButton" Content="Outgoing" Margin="5" Width="100" Background="SteelBlue" Foreground="White" FontWeight="Bold" Visibility="Hidden" Click="outgoingButton_Click"/>
                 <Button Name="serverButton" Content="Settings" Margin="5" Width="100" Background="SteelBlue" Foreground="White" FontWeight="Bold" Visibility="Hidden" Click="serverButton_Click"/>
                 <Button Name="rulesButton" Content="Rules" Margin="5" Width="100" Background="SteelBlue" Foreground="White" FontWeight="Bold" Visibility="Hidden" Click="rulesButton_Click"/>

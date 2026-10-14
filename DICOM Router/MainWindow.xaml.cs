@@ -31,20 +31,28 @@ namespace DICOM_Router
         private void incomingButton_Click(object sender, RoutedEventArgs e)
         {
             DataContext = new IncomingViewModel();
+            resetButtonBackground();
+            incomingButton.Background = Brushes.Black;
         }
         private void outgoingButton_Click(object sender, RoutedEventArgs e)
         {
             DataContext = new OutgoingViewModel();
+            resetButtonBackground();
+            outgoingButton.Background = Brushes.Black;      
         }
 
         private void serverButton_Click(object sender, RoutedEventArgs e)
         {
             DataContext = new SettingsViewModel();    
+            resetButtonBackground();
+            serverButton.Background = Brushes.Black;
         }
 
         private void rulesButton_Click(object sender, RoutedEventArgs e)
         {
             DataContext = new RulesViewModel();
+            resetButtonBackground();
+            rulesButton.Background = Brushes.Black;
         }
 
         // This will be Relocated to App.xaml.cs in the future for better structure and organization.
@@ -94,6 +102,15 @@ namespace DICOM_Router
             outgoingButton.Visibility = Visibility.Visible;
             serverButton.Visibility = Visibility.Visible;
             rulesButton.Visibility = Visibility.Visible;
+        }
+
+        // Helper method to aid in showing which View we are displaying. 
+        private void resetButtonBackground() 
+        {
+            incomingButton.Background = Brushes.SteelBlue;
+            outgoingButton.Background = Brushes.SteelBlue;
+            serverButton.Background = Brushes.SteelBlue;
+            rulesButton.Background = Brushes.SteelBlue;
         }
     }
 }

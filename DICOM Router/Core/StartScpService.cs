@@ -29,7 +29,7 @@ namespace DICOM_Router.Core
     {
         private IDicomServer? _dicomServer;
 
-        private const int DicomPort = 11112; 
+        private const int DicomPort = 11112; // TODO: Get this From DB.
 
         protected override async Task ExecuteAsync(
             CancellationToken stoppingToken)
@@ -59,7 +59,7 @@ namespace DICOM_Router.Core
             }
             catch (OperationCanceledException)
             {
-                // Normal shutdown
+                // Normal Service Shutdown.
             }
             catch (Exception ex)
             {

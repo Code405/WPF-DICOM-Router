@@ -26,7 +26,6 @@ namespace DICOM_Router
         {
             base.OnStartup(e);
 
-            //using var db = new DICOM_Router.Models.DicomContext();
 
             fsw = new FileWatcherService(); //Initialize a global service with fsw variable. 
 

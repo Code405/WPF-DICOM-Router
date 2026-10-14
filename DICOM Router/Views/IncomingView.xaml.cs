@@ -28,9 +28,8 @@ namespace DICOM_Router.Views
         { 
             InitializeComponent();
 
+            // This is how the data is loaded from the DB to the DataGrid.
             DatabaseContext context = new DatabaseContext();
-
-            //context.IncomingStudies.Load();
 
             incomingStudiesList = new ObservableCollection<IncomingStudy>(context.IncomingStudies.ToList());
 

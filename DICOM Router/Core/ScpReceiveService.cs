@@ -1,5 +1,7 @@
 ﻿using FellowOakDicom;
 using FellowOakDicom.Network;
+using DICOM_Router.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.IO;
 using System.Text;
 using FellowOakDicom.Log;
 using static Microsoft.Extensions.Logging.ILogger;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 /*
 **********************************************************************************************************
@@ -82,7 +85,7 @@ namespace DICOM_Router.Core
             if (association.CalledAE != "STORESCP")
             {
                 Debug.WriteLine(
-                    $"Association rejected: Called AE {association.CalledAE} not recognized");
+                    $"Association rejected: Called AE {association.CalledAE} not recognized"); // TODO: Log this.
                 return SendAssociationRejectAsync(
                     DicomRejectResult.Permanent,
                     DicomRejectSource.ServiceUser,
@@ -138,7 +141,7 @@ namespace DICOM_Router.Core
                 string incomingFolder =
                     Path.Combine(
                         AppContext.BaseDirectory,
-                        "Incoming"); 
+                        "Incoming");
 
                 Directory.CreateDirectory(incomingFolder);
 
@@ -152,7 +155,32 @@ namespace DICOM_Router.Core
                         incomingFolder,
                         $"{sopInstanceUid}.dcm");
 
-                // Save the DICOM file to the specified path.
+                /* Get DICOM file SUID and check if it already exists in Incoming_Studies Table.
+                   If it does, increment Image_Count and proceed. Otherwise, 
+                   add a new entry to the Incoming_Studies Table with Image_Count = 1.
+                */
+
+                // Have to convert to DicomFile because request type has no access to Suid.
+                DicomFile dicomFile = request.File;
+                string studyInstanceUid = dicomFile.Dataset.GetSingleValueOrDefault(DicomTag.StudyInstanceUID, "UNKNOWN");
+                Debug.WriteLine($"We have received: {studyInstanceUid}"); // TODO: Covert to Logging.
+
+                // Calling helper method to check if the study exists in the database.
+                bool studyExists = await CheckIfStudyExists(studyInstanceUid);
+                if (studyExists)
+                {
+                    // TODO: Study exists in the database, increment Image_Count.
+                    Debug.WriteLine($"Study exists in DB: {studyInstanceUid}");
+                }
+                else
+                {
+                    // TODO: If Study not in DB, then we need to add to DB.
+                    Debug.WriteLine($"Study does not exist in DB: {studyInstanceUid}");
+                }
+
+
+
+                // Save the DICOM file to the Incoming Directory.
                 if (request.File != null)
                 {
                     await request.File.SaveAsync(filePath);
@@ -184,7 +212,7 @@ namespace DICOM_Router.Core
             Exception e)
         {
             Debug.WriteLine(
-                $"C-STORE exception: {e}");
+                $"C-STORE exception: {e}"); // TODO: Log this.
 
             await Task.CompletedTask;
         }
@@ -193,6 +221,16 @@ namespace DICOM_Router.Core
         public Task<DicomCEchoResponse> OnCEchoRequestAsync(DicomCEchoRequest request)
         {
             return Task.FromResult(new DicomCEchoResponse(request, DicomStatus.Success));
+        }
+
+        // Helper Method: DB Check if SUID exists in Incoming Studies Table.
+        public async Task<bool> CheckIfStudyExists(string studyInstanceUid)
+        {
+            DatabaseContext databaseContext = new DatabaseContext();
+
+            var study = await databaseContext.IncomingStudies.FirstOrDefaultAsync(s => s.Suid == studyInstanceUid);  
+
+            return study != null;
         }
     }
 }

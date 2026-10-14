@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <!-- Data Grid View of incoming DICOM files-->
-        <DataGrid Name="IncomingDataGrid" CanUserAddRows="False" 
+        <DataGrid x:Name="IncomingDataGrid" ItemsSource="{Binding incomingStudiesList}" CanUserAddRows="False" 
                         AutoGenerateColumns="False" HeadersVisibility="Column">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -20,12 +20,12 @@
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Date" Width="100" Binding="{Binding date}"/>
-                <DataGridTextColumn Header="Patient ID" Width="150" Binding="{Binding patientID}"/>
-                <DataGridTextColumn Header="Name" Width="150" Binding="{Binding name}"/>
-                <DataGridTextColumn Header="Modality" Width="75" Binding="{Binding modality}"/>
-                <DataGridTextColumn Header="Images" Width="75" Binding="{Binding images}"/>
-                <DataGridTextColumn Header="SUID" Width="*" Binding="{Binding suid}"/>
+                <DataGridTextColumn Header="Date" Width="100" Binding="{Binding DateRec}" />
+                <DataGridTextColumn Header="Patient ID" Width="150" Binding="{Binding PatientId}" />
+                <DataGridTextColumn Header="Name" Width="150" Binding="{Binding PatientName}" />
+                <DataGridTextColumn Header="Modality" Width="75" Binding="{Binding ModalityType}" />
+                <DataGridTextColumn Header="Images" Width="75" Binding="{Binding ImageCount}" />
+                <DataGridTextColumn Header="SUID" Width="*" Binding="{Binding Suid}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

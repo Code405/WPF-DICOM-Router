@@ -5,6 +5,8 @@ namespace DICOM_Router.Models;
 
 public partial class IncomingStudy
 {
+    public int Id { get; set; }
+
     public string? DateRec { get; set; }
 
     public string? PatientId { get; set; }

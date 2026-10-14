@@ -17,6 +17,8 @@ public partial class DatabaseContext : DbContext
 
     public virtual DbSet<Device> Devices { get; set; }
 
+    public virtual DbSet<EfmigrationsLock> EfmigrationsLocks { get; set; }
+
     public virtual DbSet<IncomingStudy> IncomingStudies { get; set; }
 
     public virtual DbSet<OutgingStudy> OutgingStudies { get; set; }
@@ -26,6 +28,7 @@ public partial class DatabaseContext : DbContext
     public virtual DbSet<Server> Servers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlite("Data Source=C:\\Users\\Jon\\source\\repos\\DICOM Router\\DICOM Router\\DB\\Database.db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,12 +44,20 @@ public partial class DatabaseContext : DbContext
             entity.Property(e => e.IpAddress).HasColumnName("IP_Address");
         });
 
+        modelBuilder.Entity<EfmigrationsLock>(entity =>
+        {
+            entity.ToTable("__EFMigrationsLock");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+        });
+
         modelBuilder.Entity<IncomingStudy>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Incoming Studies");
+            entity.ToTable("Incoming Studies");
 
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("ID");
             entity.Property(e => e.DateRec).HasColumnName("Date_Rec");
             entity.Property(e => e.ImageCount).HasColumnName("Image_Count");
             entity.Property(e => e.ModalityType).HasColumnName("Modality_Type");

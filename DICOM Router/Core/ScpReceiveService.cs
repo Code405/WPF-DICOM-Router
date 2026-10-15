@@ -198,11 +198,11 @@ namespace DICOM_Router.Core
                     request,
                     DicomStatus.Success);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 // Something bad happened. Log the error and return a failure response.
                 Debug.WriteLine(
-                    $"Error storing DICOM: {ex}");
+                    $"Error storing DICOM: {e}");
 
                 return new DicomCStoreResponse(
                     request,
@@ -263,9 +263,9 @@ namespace DICOM_Router.Core
                     await databaseContext.SaveChangesAsync();
                     status = true;
                 }
-                catch(DbUpdateException ex)
+                catch(DbUpdateException e)
                 {
-                    Debug.WriteLine(ex);
+                    Debug.WriteLine(e);
                     status = false;
                 }
                 
@@ -289,8 +289,9 @@ namespace DICOM_Router.Core
                 }
                 status = true;
             }
-            catch
+            catch(Exception e)
             {
+                Debug.WriteLine(e);
                 status = false;
             }
 

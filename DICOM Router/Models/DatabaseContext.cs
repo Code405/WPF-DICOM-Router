@@ -55,9 +55,9 @@ public partial class DatabaseContext : DbContext
         {
             entity.ToTable("Incoming Studies");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.HasIndex(e => e.Id, "IX_Incoming Studies_ID").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.DateRec).HasColumnName("Date_Rec");
             entity.Property(e => e.ImageCount).HasColumnName("Image_Count");
             entity.Property(e => e.ModalityType).HasColumnName("Modality_Type");

@@ -169,12 +169,16 @@ namespace DICOM_Router.Core
                 bool studyExists = await CheckIfStudyExists(studyInstanceUid);
                 if (studyExists)
                 {
-                    // TODO: Study exists in the database, increment Image_Count.
+                    // If it is already in DB, just increase the ImageCount of the row.
+                    await IncrementImageCountDB(studyInstanceUid);
+
                     Debug.WriteLine($"Study exists in DB: {studyInstanceUid}");
                 }
                 else
                 {
-                    // TODO: If Study not in DB, then we need to add to DB.
+                    // If Study not in DB, then we need to add to DB.
+                    await WriteDicomIntoDB(dicomFile);
+
                     Debug.WriteLine($"Study does not exist in DB: {studyInstanceUid}");
                 }
 
@@ -226,12 +230,74 @@ namespace DICOM_Router.Core
         // Helper Method: DB Check if SUID exists in Incoming Studies Table.
         public async Task<bool> CheckIfStudyExists(string studyInstanceUid)
         {
+            // TODO: Change to using statement.
             DatabaseContext databaseContext = new DatabaseContext();
 
             var study = await databaseContext.IncomingStudies.FirstOrDefaultAsync(s => s.Suid == studyInstanceUid);  
 
             return study != null;
         }
+
+        // Helper Method to Write Dicom attributes to Incoming DB.
+        public async Task<bool> WriteDicomIntoDB(DicomFile dicomFile)
+        {
+            string dateString = DateTime.Now.ToString("yyyyMMdd");
+            bool status;
+
+            using (var databaseContext = new DatabaseContext())
+            {
+                var study = new IncomingStudy
+                {
+                    DateRec = dateString,
+                    PatientId = dicomFile.Dataset.GetString(DicomTag.PatientID),
+                    PatientName = dicomFile.Dataset.GetString(DicomTag.PatientName),
+                    ModalityType = dicomFile.Dataset.GetString(DicomTag.Modality),
+                    ImageCount = 1,
+                    Suid = dicomFile.Dataset.GetString(DicomTag.StudyInstanceUID)
+                };
+
+                databaseContext.IncomingStudies.Add(study);
+
+                try
+                {
+                    await databaseContext.SaveChangesAsync();
+                    status = true;
+                }
+                catch(DbUpdateException ex)
+                {
+                    Debug.WriteLine(ex);
+                    status = false;
+                }
+                
+            }
+
+            return status;
+        }
+
+        // Helper Method to increment the row's Image Count if the SUID is already there. 
+        public async Task<bool> IncrementImageCountDB(string studyInstanceUid)
+        {
+            bool status;
+            try
+            {
+                using (var databaseContext = new DatabaseContext())
+                {
+                    databaseContext.IncomingStudies
+                        .Where(e => e.Suid == studyInstanceUid)
+                        .ExecuteUpdate(setters => setters
+                            .SetProperty(e => e.ImageCount, e => e.ImageCount + 1));
+                }
+                status = true;
+            }
+            catch
+            {
+                status = false;
+            }
+
+            return status;
+        }
+
+
     }
 }
 

@@ -40,17 +40,17 @@ namespace DICOM_Router.Core
             this.CalledAET = calledAET;
         }
 
-        public async Task Send(string filePath)
+        public async Task Send(DicomFile dicomFile)
         {
             // Create a C-STORE request for the DICOM file
             var client = DicomClientFactory.Create(this.Host, this.Port,
                                                    this.UseTls, this.CallingAET, this.CalledAET);
 
             // Wait for 1 second. We need a delay or the file is locked by FileWatcher.
-            Thread.Sleep(1000); 
+            //Thread.Sleep(1000); 
 
             // 2. Load the DICOM file
-            var dicomFile = await DicomFile.OpenAsync(filePath);
+            //var dicomFile = await DicomFile.OpenAsync(filePath);
 
 
             var request = new DicomCStoreRequest(dicomFile);

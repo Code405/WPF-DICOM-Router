@@ -5,22 +5,23 @@ using System.Text;
 
 namespace DICOM_Router.Core
 {
-    public class OutputQueue
+    public static class OutputQueue
     {
+        // Create a queue to store dicomFiles coming from FileWatcherService.
+        public static Queue<DicomFile> outputQueue = new Queue<DicomFile>();
 
-        // THIS IS ALL NONSENSE FOR TESTING. NOT RELEVANT WHATSOEVER. 
-        DicomStudy study = new DicomStudy();
-
-        DicomFile dicomFile = new DicomFile();
-
-        Queue<DicomStudy> outputQueue = new Queue<DicomStudy>();
-
-        public void Main() 
+        public static void AddDicomFile(DicomFile dicomFile) 
         {
-            study.AddDicomFile(dicomFile);
-
-            outputQueue.Enqueue(study);
+            outputQueue.Enqueue(dicomFile);
         }  
 
+        public static DicomFile GetNext()
+        {
+            DicomFile dicomFile;
+
+            dicomFile = outputQueue.Dequeue();
+
+            return dicomFile;
+        }
     }
 }  

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
+using FellowOakDicom;
 
 namespace DICOM_Router.Core
 {
@@ -24,7 +25,6 @@ namespace DICOM_Router.Core
 
     public class FileWatcherService : IDisposable
     {
-
         private FileSystemWatcher fsw;
 
         // Create an event that can be subscribed to.
@@ -40,7 +40,6 @@ namespace DICOM_Router.Core
 
             fsw = new FileSystemWatcher
             {
-                
                 Path = $@"{currentDirectory}/Incoming", // Map to the ScpReceiveService.cs Incoming folder.
                 Filter = "*.*",
                 NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite
@@ -56,17 +55,23 @@ namespace DICOM_Router.Core
 
         private async void OnCreated(object sender, FileSystemEventArgs e)
         {
-
             // Send event to subscribers.
             FileCreated?.Invoke(e.FullPath);// Are we even going to use this? 
             Debug.WriteLine($"File created: {e.FullPath}");
 
-            // 1. Store into DB and filesystem. Single Static Method to do this.
-            // 2. Add to queue for passing to Rule Engine. 
-            // 3. Rule Engine will be responsible for sending if conditions are met.
+            // Add a delay to avoid the File Lock error.
+            Thread.Sleep(1000);
 
-            ScuSendService scu = new ScuSendService("localhost", 4104, "SCU", "SCP");
-            await scu.Send(e.FullPath);
+            // Created a file from the file path.
+            DicomFile dicomFile = DicomFile.Open(e.FullPath);
+
+            // Add dicom file to the output queue. 
+            OutputQueue.AddDicomFile(dicomFile);
+
+            // This should be done in the Rules Engine... Not here. For Testing Only. 
+            ScuSendService scu = new ScuSendService("localhost", 4104, "SCU", "SCP"); 
+
+            await scu.Send(dicomFile);
         }
 
         private void OnError(object sender, ErrorEventArgs e)

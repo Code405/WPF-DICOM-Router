@@ -14,7 +14,6 @@ namespace DICOM_Router
     public partial class App : Application
     {
 
-
         // The IHost instance for managing the background service.
         private IHost? _host;
 

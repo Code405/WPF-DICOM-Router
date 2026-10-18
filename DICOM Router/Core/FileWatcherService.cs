@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using System.Diagnostics;
 using FellowOakDicom;
+using DICOM_Router.Dummy;
 
 namespace DICOM_Router.Core
 {
@@ -65,13 +66,15 @@ namespace DICOM_Router.Core
             // Created a file from the file path.
             DicomFile dicomFile = DicomFile.Open(e.FullPath);
 
-            // Add dicom file to the output queue. 
-            OutputQueue.AddDicomFile(dicomFile);
+            // Send dicomFile into Rules Engine for processing. 
+            RuleProcessingService ruleProcessor = new RuleProcessingService(dicomFile);
+
+            ruleProcessor.Start();
 
             // This should be done in the Rules Engine... Not here. For Testing Only. 
-            ScuSendService scu = new ScuSendService("localhost", 4104, "SCU", "SCP"); 
+            // ScuSendService scu = new ScuSendService("localhost", 4104, "SCU", "SCP"); 
 
-            await scu.Send(dicomFile);
+            //await scu.Send(dicomFile);
         }
 
         private void OnError(object sender, ErrorEventArgs e)

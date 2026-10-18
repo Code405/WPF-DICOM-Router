@@ -35,12 +35,12 @@ public partial class DatabaseContext : DbContext
     {
         modelBuilder.Entity<Device>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasIndex(e => e.Id, "IX_Devices_ID").IsUnique();
 
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CalledAe).HasColumnName("Called_AE");
             entity.Property(e => e.CallingAe).HasColumnName("Calling_AE");
             entity.Property(e => e.DeviceName).HasColumnName("Device_Name");
-            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.IpAddress).HasColumnName("IP_Address");
         });
 
@@ -85,12 +85,12 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<RoutingRule>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Routing_Rules");
+            entity.ToTable("Routing_Rules");
 
-            entity.Property(e => e.DestTag).HasColumnName("Dest_Tag");
+            entity.HasIndex(e => e.Id, "IX_Routing_Rules_ID").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.DestTag).HasColumnName("Dest_Tag");
             entity.Property(e => e.MatchValue).HasColumnName("Match_Value");
             entity.Property(e => e.ReplaceValue).HasColumnName("Replace_Value");
             entity.Property(e => e.SourceTag).HasColumnName("Source_Tag");

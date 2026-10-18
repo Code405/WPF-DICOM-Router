@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DICOM_Router.Core
+namespace DICOM_Router.Dummy
 {
     public static class OutputQueue
     {

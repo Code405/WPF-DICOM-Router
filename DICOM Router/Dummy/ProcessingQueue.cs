@@ -5,7 +5,7 @@ using System.Security.RightsManagement;
 using System.Text;
 using FellowOakDicom;
 
-namespace DICOM_Router.Core
+namespace DICOM_Router.Dummy
 {
     public static class ProcessingQueue
     {

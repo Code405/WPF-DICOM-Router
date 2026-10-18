@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Security;
 using System.Runtime.CompilerServices;
 using System.Text;
+using DICOM_Router.Models;
 using FellowOakDicom;
 using FellowOakDicom.Network;
 using FellowOakDicom.Network.Client;
@@ -32,12 +33,12 @@ namespace DICOM_Router.Core
         private string CallingAET { get; set; }
         private string CalledAET { get; set; }  
    
-        public ScuSendService(string host, int port, string callingAET, string calledAET)
+        public ScuSendService(Device device)
         {
-            this.Host = host;
-            this.Port = port;
-            this.CallingAET = callingAET;
-            this.CalledAET = calledAET;
+            this.Host = device.IpAddress;
+            this.Port = device.Port;
+            this.CallingAET = device.CallingAe;
+            this.CalledAET = device.CalledAe;
         }
 
         public async Task Send(DicomFile dicomFile)

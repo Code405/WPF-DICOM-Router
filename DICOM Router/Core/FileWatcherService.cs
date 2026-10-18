@@ -54,7 +54,7 @@ namespace DICOM_Router.Core
             fsw.EnableRaisingEvents = true;
         }
 
-        private async void OnCreated(object sender, FileSystemEventArgs e)
+        private async void OnCreated(object sender, FileSystemEventArgs e) // This probably shouldnt be async now.
         {
             // Send event to subscribers.
             FileCreated?.Invoke(e.FullPath);// Are we even going to use this? 
@@ -70,11 +70,6 @@ namespace DICOM_Router.Core
             RuleProcessingService ruleProcessor = new RuleProcessingService(dicomFile);
 
             ruleProcessor.Start();
-
-            // This should be done in the Rules Engine... Not here. For Testing Only. 
-            // ScuSendService scu = new ScuSendService("localhost", 4104, "SCU", "SCP"); 
-
-            //await scu.Send(dicomFile);
         }
 
         private void OnError(object sender, ErrorEventArgs e)

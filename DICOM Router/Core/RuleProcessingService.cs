@@ -43,7 +43,7 @@ namespace DICOM_Router.Core
         {
             // Determine which type of Rule this is:
             // 0 = AutoRoute all studies no conditions.
-            // 1 = Conditional on Tag string match.
+            // 1 = Conditional Tag Matches a value.
             // 2 = Replace Tag String with new string;
             // 3 = Copy Tag to new Tag.
 
@@ -51,6 +51,15 @@ namespace DICOM_Router.Core
             {
                 case "0":
                     SendFile(device, this.sourceDicomFile);
+                    break;
+                case "1":
+                    TagMatchesValue(rule, device, this.sourceDicomFile);
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+                default:
                     break;
             }
         }
@@ -60,8 +69,19 @@ namespace DICOM_Router.Core
 
         }
 
-        private void ConditionalTag()
+        private void TagMatchesValue(RoutingRule rule, Device device, DicomFile dicomFile)
         {
+            // Create a dataset from Dicom File and get the string value of the Tag specified.
+            var dataSet = dicomFile.Dataset;
+            string tagNumber = rule.SourceTag;
+            string dicomTagToCheck = dataSet.GetString(DicomTag.Parse(tagNumber));
+
+            // Simple string match for a tag value. IE: Modailty = "MR"
+            if (dicomTagToCheck == rule.MatchValue)
+            {
+                SendFile(device, dicomFile);
+            }
+            // No match? Do nothing.
 
         }
 

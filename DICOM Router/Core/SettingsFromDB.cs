@@ -36,12 +36,12 @@ namespace DICOM_Router.Core
 
             routingRules.Add(rule);
 
-            rule2.Name = "AutoForward2";
-            rule2.Type = "0";
-            rule2.SourceTag = "";
+            rule2.Name = "TagMatch";
+            rule2.Type = "1";
+            rule2.SourceTag = "00080060";
             rule2.DestTag = "";
             rule2.ReplaceValue = "";
-            rule2.MatchValue = "";
+            rule2.MatchValue = "DX";
             rule2.DeviceName = "Auto2";
 
             routingRules.Add(rule2);

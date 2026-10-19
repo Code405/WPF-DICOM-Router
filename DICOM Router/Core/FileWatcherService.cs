@@ -70,6 +70,8 @@ namespace DICOM_Router.Core
             RuleProcessingService ruleProcessor = new RuleProcessingService(dicomFile);
 
             ruleProcessor.Start();
+
+            // TODO: Need to move the file after processing.
         }
 
         private void OnError(object sender, ErrorEventArgs e)

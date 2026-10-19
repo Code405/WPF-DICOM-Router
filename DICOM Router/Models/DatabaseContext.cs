@@ -53,9 +53,9 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<IncomingStudy>(entity =>
         {
-            entity.ToTable("Incoming Studies");
+            entity.ToTable("Incoming_Studies");
 
-            entity.HasIndex(e => e.Id, "IX_Incoming Studies_ID").IsUnique();
+            entity.HasIndex(e => e.Id, "IX_Incoming_Studies_ID").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.DateRec).HasColumnName("Date_Rec");
@@ -68,13 +68,13 @@ public partial class DatabaseContext : DbContext
 
         modelBuilder.Entity<OutgingStudy>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Outging_Studies");
+            entity.ToTable("Outging_Studies");
 
+            entity.HasIndex(e => e.Id, "IX_Outging_Studies_ID").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.DateSent).HasColumnName("Date_Sent");
             entity.Property(e => e.DeviceName).HasColumnName("Device_Name");
-            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.ImageCount).HasColumnName("Image_Count");
             entity.Property(e => e.ModalityType).HasColumnName("Modality_Type");
             entity.Property(e => e.PatientId).HasColumnName("Patient_ID");

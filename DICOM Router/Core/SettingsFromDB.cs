@@ -14,7 +14,7 @@ namespace DICOM_Router.Core
         private static Server ?server;
         public static void LoadSettingsFromDB()
         {
-
+            // TODO:
 
 
 
@@ -25,6 +25,7 @@ namespace DICOM_Router.Core
         {
             RoutingRule rule = new RoutingRule();
             RoutingRule rule2 = new RoutingRule();
+            RoutingRule rule3 = new RoutingRule();
 
             rule.Name = "AutoForward";
             rule.Type = "0";
@@ -36,7 +37,7 @@ namespace DICOM_Router.Core
 
             routingRules.Add(rule);
 
-            rule2.Name = "TagMatch";
+            rule2.Name = "DX Match";
             rule2.Type = "1";
             rule2.SourceTag = "00080060";
             rule2.DestTag = "";
@@ -45,6 +46,16 @@ namespace DICOM_Router.Core
             rule2.DeviceName = "Auto2";
 
             routingRules.Add(rule2);
+
+            rule3.Name = "MR Match";
+            rule3.Type = "1";
+            rule3.SourceTag = "00080060";
+            rule3.DestTag = "";
+            rule3.ReplaceValue = "";
+            rule3.MatchValue = "DX";
+            rule3.DeviceName = "Auto3";
+
+            routingRules.Add(rule3);
 
             return routingRules;
         }
@@ -74,7 +85,7 @@ namespace DICOM_Router.Core
                 return device;
 
             }
-            else
+            else if(deviceName == "Auto2")
             {
                 Device device = new Device();
 
@@ -83,7 +94,19 @@ namespace DICOM_Router.Core
                 device.Port = 4105;
                 device.CalledAe = "StorageSCP";
                 device.CallingAe = "SendingSCU2";
-                Debug.WriteLine("AUTO2 SELECTED!!!!");
+                Debug.WriteLine("DX Match SELECTED!!!!");
+                return device;
+            }
+            else
+            {
+                Device device = new Device();
+
+                device.DeviceName = deviceName;
+                device.IpAddress = "127.0.0.1";
+                device.Port = 4106;
+                device.CalledAe = "StorageSCP";
+                device.CallingAe = "SendingSCU2";
+                Debug.WriteLine("MR Match SELECTED!!!!");
                 return device;
             }
 

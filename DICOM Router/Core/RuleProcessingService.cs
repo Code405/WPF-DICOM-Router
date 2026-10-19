@@ -44,13 +44,13 @@ namespace DICOM_Router.Core
             // Determine which type of Rule this is:
             // 0 = AutoRoute all studies no conditions.
             // 1 = Conditional Tag Matches a value.
-            // 2 = Replace Tag String with new string;
+            // 2 = Always replace Tag with new string;
             // 3 = Copy Tag to new Tag.
 
             switch (rule.Type)
             {
                 case "0":
-                    SendFile(device, this.sourceDicomFile);
+                    SendFile(device, rule, this.sourceDicomFile);
                     break;
                 case "1":
                     TagMatchesValue(rule, device, this.sourceDicomFile);
@@ -66,6 +66,13 @@ namespace DICOM_Router.Core
 
         private void CopyTag()
         {
+            // TODO:
+
+        }
+
+        private void ReplaceTagValue()
+        {
+            //TODO:
 
         }
 
@@ -73,23 +80,27 @@ namespace DICOM_Router.Core
         {
             // Create a dataset from Dicom File and get the string value of the Tag specified.
             var dataSet = dicomFile.Dataset;
-            string tagNumber = rule.SourceTag;
+            string tagNumber = rule.SourceTag; // TODO: Add null handling.
             string dicomTagToCheck = dataSet.GetString(DicomTag.Parse(tagNumber));
 
             // Simple string match for a tag value. IE: Modailty = "MR"
             if (dicomTagToCheck == rule.MatchValue)
             {
-                SendFile(device, dicomFile);
+                SendFile(device, rule, dicomFile);
             }
             // No match? Do nothing.
 
         }
 
-        private async void SendFile(Device device, DicomFile dicomFile)
+        // Method to send dicom file for all rules to use.
+        private async void SendFile(Device device, RoutingRule rule, DicomFile dicomFile)
         {
+            InsertOutputDB insertOutputDB = new InsertOutputDB(rule, dicomFile);
+            int recordID = insertOutputDB.Insert();
+
             ScuSendService scu = new ScuSendService(device);
 
-            await scu.Send(dicomFile);
+            await scu.Send(dicomFile, recordID);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace DICOM_Router.Models;
 
 public partial class OutgingStudy
 {
-    public int? Id { get; set; }
+    public int Id { get; set; }
 
     public string? DateSent { get; set; }
 

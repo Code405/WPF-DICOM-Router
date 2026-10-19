@@ -41,7 +41,7 @@ namespace DICOM_Router.Core
             this.CalledAET = device.CalledAe;
         }
 
-        public async Task Send(DicomFile dicomFile)
+        public async Task Send(DicomFile dicomFile, int recordID)
         {
             // Create a C-STORE request for the DICOM file
             var client = DicomClientFactory.Create(this.Host, this.Port,
@@ -53,15 +53,24 @@ namespace DICOM_Router.Core
             // 2. Load the DICOM file
             //var dicomFile = await DicomFile.OpenAsync(filePath);
 
+            InsertOutputDB insertOutputDB = new InsertOutputDB();
+            insertOutputDB.InsertSendingStatus(recordID);
 
-            var request = new DicomCStoreRequest(dicomFile);
+            try
+            {
+                var request = new DicomCStoreRequest(dicomFile);
 
-            // TODO: Implement error handling and logging for the C-STORE request
+                // TODO: Implement error handling and logging for the C-STORE request
 
-            await client.AddRequestAsync(request);
-            await client.SendAsync();
+                await client.AddRequestAsync(request);
+                await client.SendAsync();
 
-            // Add status update to DB:
+                // Add status update to DB:
+            }
+            catch(Exception ex)
+            {
+
+            }
 
         }
     }

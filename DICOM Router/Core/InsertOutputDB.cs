@@ -23,7 +23,7 @@ namespace DICOM_Router.Core
         {
             var dataSet = dicomFile.Dataset;
 
-            this.PatientId = dataSet.GetString(DicomTag.PatientName);
+            this.PatientName = dataSet.GetString(DicomTag.PatientName);
             this.PatientId = dataSet.GetString(DicomTag.PatientID);
             this.ModalityType = dataSet.GetString(DicomTag.Modality);
             this.ImageCount += 1;
@@ -82,6 +82,44 @@ namespace DICOM_Router.Core
                         .Where(e => e.Id == recordID)
                         .ExecuteUpdate(setters => setters
                             .SetProperty(e => e.Status, "Sending"));
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+            return recordID;
+        }
+
+        public int InsertSentStatus(int recordID)
+        {
+            try
+            {
+                using (var databaseContext = new DatabaseContext())
+                {
+                    databaseContext.OutgingStudies
+                        .Where(e => e.Id == recordID)
+                        .ExecuteUpdate(setters => setters
+                            .SetProperty(e => e.Status, "Sent"));
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+            return recordID;
+        }
+
+        public int InsertFailedStatus(int recordID)
+        {
+            try
+            {
+                using (var databaseContext = new DatabaseContext())
+                {
+                    databaseContext.OutgingStudies
+                        .Where(e => e.Id == recordID)
+                        .ExecuteUpdate(setters => setters
+                            .SetProperty(e => e.Status, "Sent"));
                 }
             }
             catch (Exception e)

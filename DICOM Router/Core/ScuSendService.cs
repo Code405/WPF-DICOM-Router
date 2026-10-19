@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Security;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -56,21 +57,50 @@ namespace DICOM_Router.Core
             InsertOutputDB insertOutputDB = new InsertOutputDB();
             insertOutputDB.InsertSendingStatus(recordID);
 
+            bool success = false;
+
+            var request = new DicomCStoreRequest(dicomFile);
+
+
+            request.OnResponseReceived = (DicomCStoreRequest req, DicomCStoreResponse response) =>
+            {
+                DicomStatus status = response.Status;
+
+                if (status.State == DicomState.Success)
+                {
+                    insertOutputDB.InsertSentStatus(recordID);
+                }
+                else if (status.State == DicomState.Warning)
+                {
+                    insertOutputDB.InsertFailedStatus(recordID);
+                }
+                else if (status.State == DicomState.Failure)
+                {
+                    insertOutputDB.InsertFailedStatus(recordID);
+                }
+            };
+
             try
             {
-                var request = new DicomCStoreRequest(dicomFile);
-
-                // TODO: Implement error handling and logging for the C-STORE request
-
                 await client.AddRequestAsync(request);
                 await client.SendAsync();
-
-                // Add status update to DB:
             }
-            catch(Exception ex)
+            catch(FellowOakDicom.Network.DicomNetworkException ex)
             {
-
+                //Log Error
+                Debug.WriteLine(ex);
             }
+            catch (System.Net.Sockets.SocketException ex)
+            {
+                //Log Error
+                Debug.WriteLine(ex);
+            }
+            catch(System.AggregateException ex)
+            {
+                //Log Error
+                Debug.WriteLine(ex);
+            }
+
 
         }
     }

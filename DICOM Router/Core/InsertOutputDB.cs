@@ -67,6 +67,7 @@ namespace DICOM_Router.Core
             }
             catch(Exception e)
             {
+                Logger.Log(1, $"[ERROR] Error inserting into output DB. {e}");
                 return 0;
             }
         }
@@ -86,7 +87,7 @@ namespace DICOM_Router.Core
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
+                Logger.Log(1, $"[ERROR] Error inserting into output DB. {e}");
             }
             return recordID;
         }
@@ -105,7 +106,7 @@ namespace DICOM_Router.Core
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
+                Logger.Log(1, $"[ERROR] Error inserting into output DB. {e}");
             }
             return recordID;
         }
@@ -119,12 +120,12 @@ namespace DICOM_Router.Core
                     databaseContext.OutgingStudies
                         .Where(e => e.Id == recordID)
                         .ExecuteUpdate(setters => setters
-                            .SetProperty(e => e.Status, "Sent"));
+                            .SetProperty(e => e.Status, "Failed"));
                 }
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
+                Logger.Log(1, $"[ERROR] Error inserting into output DB. {e}");
             }
             return recordID;
         }

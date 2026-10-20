@@ -21,17 +21,17 @@ namespace DICOM_Router.Views
     /// </summary>
     public partial class OutgoingView : UserControl
     {
-        private ObservableCollection<OutgingStudy> outgoingStudiesList;
+        //private ObservableCollection<OutgingStudy> outgoingStudiesList;
         public OutgoingView()
         {
             InitializeComponent();
 
             // This is how the data is loaded from the DB to the DataGrid.
-            DatabaseContext context = new DatabaseContext();
+            //DatabaseContext context = new DatabaseContext();
 
-            outgoingStudiesList = new ObservableCollection<OutgingStudy>(context.OutgingStudies.ToList());
+            //outgoingStudiesList = new ObservableCollection<OutgingStudy>(context.OutgingStudies.ToList());
 
-            OutgoingDataGrid.ItemsSource = outgoingStudiesList;
+            //OutgoingDataGrid.ItemsSource = outgoingStudiesList;
             
         }
     }

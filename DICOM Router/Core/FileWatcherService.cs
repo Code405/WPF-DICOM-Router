@@ -87,7 +87,7 @@ namespace DICOM_Router.Core
 
             // Send event to subscribers.
             FileCreated?.Invoke(e.FullPath);// Are we even going to use this? 
-            Debug.WriteLine($"File created: {e.FullPath}");
+            Logger.Log(3, $"File created: {e.FullPath}");
 
 
             // Add a delay to avoid the File Lock error.
@@ -112,6 +112,7 @@ namespace DICOM_Router.Core
         private void OnError(object sender, ErrorEventArgs e)
         {
             // TODO: Log and handle error.
+            Logger.Log(1,$"[ERROR] Filewatcher error: {e}");
         }
 
         public void Dispose()

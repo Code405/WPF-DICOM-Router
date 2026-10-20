@@ -33,6 +33,9 @@ namespace DICOM_Router.Core
 
                 // Log the progress with an Informational LogLevel:
                 Logger.Log(3,$"RuleProcessing for rule: {rule.Name} for file: {fileName}");
+
+                // *************DELAY for DEMO Purpose to MIMIC REAL WORLD PACE.*****************************************
+                Thread.Sleep(1000);
  
                 // Add rule and device to RuleEngine call, the this.dicomFile can be pulled in from the instance.
                 RuleEngine(rule, device, fileName);

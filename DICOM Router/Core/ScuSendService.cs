@@ -88,17 +88,20 @@ namespace DICOM_Router.Core
             catch(FellowOakDicom.Network.DicomNetworkException ex)
             {
                 //Log Error
-                Debug.WriteLine(ex);
+                insertOutputDB.InsertFailedStatus(recordID);
+                Logger.Log(1, $"[ERROR] SCU error: {ex}");
             }
             catch (System.Net.Sockets.SocketException ex)
             {
                 //Log Error
-                Debug.WriteLine(ex);
+                insertOutputDB.InsertFailedStatus(recordID);
+                Logger.Log(1, $"[ERROR] SCU error: {ex}");
             }
             catch(System.AggregateException ex)
             {
                 //Log Error
-                Debug.WriteLine(ex);
+                insertOutputDB.InsertFailedStatus(recordID);
+                Logger.Log(1, $"[ERROR] SCU error: {ex}");
             }
 
 

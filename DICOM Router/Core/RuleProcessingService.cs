@@ -19,7 +19,7 @@ namespace DICOM_Router.Core
             this.sourceDicomFile = dicomFile;
         }
 
-        public void Start()
+        public void Start(string fileName)
         {
             // Get All Rules from DB as List.
             routingRules = SettingsFromDB.GetRulesFromDB();

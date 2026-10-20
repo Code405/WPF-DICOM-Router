@@ -52,7 +52,7 @@ namespace DICOM_Router.Core
             rule3.SourceTag = "00080060";
             rule3.DestTag = "";
             rule3.ReplaceValue = "";
-            rule3.MatchValue = "DX";
+            rule3.MatchValue = "MR";
             rule3.DeviceName = "Auto3";
 
             routingRules.Add(rule3);
@@ -81,7 +81,6 @@ namespace DICOM_Router.Core
                 device.Port = 4104;
                 device.CalledAe = "StorageSCP";
                 device.CallingAe = "SendingSCU";
-                Debug.WriteLine("AUTO1 SELECTED!!!!");
                 return device;
 
             }
@@ -94,7 +93,6 @@ namespace DICOM_Router.Core
                 device.Port = 4105;
                 device.CalledAe = "StorageSCP";
                 device.CallingAe = "SendingSCU2";
-                Debug.WriteLine("DX Match SELECTED!!!!");
                 return device;
             }
             else
@@ -106,7 +104,6 @@ namespace DICOM_Router.Core
                 device.Port = 4106;
                 device.CalledAe = "StorageSCP";
                 device.CallingAe = "SendingSCU2";
-                Debug.WriteLine("MR Match SELECTED!!!!");
                 return device;
             }
 

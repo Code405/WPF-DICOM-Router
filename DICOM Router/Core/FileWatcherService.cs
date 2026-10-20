@@ -64,14 +64,19 @@ namespace DICOM_Router.Core
             Thread.Sleep(1000);
 
             // Created a file from the file path.
-            DicomFile dicomFile = DicomFile.Open(e.FullPath);
+            DicomFile dicomFile = DicomFile.Open(e.FullPath, FileReadOption.ReadAll);
+
+            // Get just the filename from the full path of the dicomFile
+            string fileName = Path.GetFileName(e.FullPath);
 
             // Send dicomFile into Rules Engine for processing. 
             RuleProcessingService ruleProcessor = new RuleProcessingService(dicomFile);
 
-            ruleProcessor.Start();
+            // Start processing the dicomFile. Pass the fileName so that it can be removed from Incoming directory.
+            ruleProcessor.Start(fileName);
 
-            // TODO: Need to move the file after processing.
+            // Move the file out of Incoming Directory after loading into memory. 
+            FileMover.Move(fileName);
         }
 
         private void OnError(object sender, ErrorEventArgs e)

@@ -11,7 +11,7 @@ namespace DICOM_Router.Core
         // This class will load all DB settings into memory at startup.
         private static List<RoutingRule> routingRules = new List<RoutingRule>();
         private static List<Device> devices = new List<Device>();
-        private static Server ?server;
+        //private static Server ?server;
         public static void LoadSettingsFromDB()
         {
             Logger.Log(3, "Loading files from Database into application. ");
@@ -64,6 +64,8 @@ namespace DICOM_Router.Core
         public static Server GetServerSettingsFromDB()
         {
             // Simulated load of data from DB.. TESTING
+            Server server = new Server();
+
             server.AeTitle = "StoreSCP";
             server.Port = 11112;
             server.LoggingMode = 1;

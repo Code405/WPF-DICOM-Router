@@ -27,6 +27,7 @@ namespace DICOM_Router
 
 
             fsw = new FileWatcherService(); //Initialize a global service with fsw variable. 
+            fsw.Start();
 
             _host = Host.CreateDefaultBuilder()
                 .ConfigureServices(services =>
@@ -37,7 +38,7 @@ namespace DICOM_Router
 
             await _host.StartAsync();
 
-            fsw.Start();
+            
         }
 
         // Override the OnExit method to stop the background service when the application exits.

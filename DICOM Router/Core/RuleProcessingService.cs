@@ -17,26 +17,37 @@ namespace DICOM_Router.Core
         public RuleProcessingService(DicomFile dicomFile)
         {
             this.sourceDicomFile = dicomFile;
+            // Get All Rules from DB as List.
+            this.routingRules = SettingsFromDB.GetRulesFromDB();
         }
 
         public void Start(string fileName)
         {
-            // Get All Rules from DB as List.
-            routingRules = SettingsFromDB.GetRulesFromDB();
 
             // Loop through list and process each rule to the dicomFile.
-            foreach (RoutingRule rule in routingRules)
+            int RuleLength = this.routingRules.Count;
+
+            foreach (RoutingRule rule in this.routingRules)
             {
                 // Get Device Name from current rule, if rule matches we send to this device.
                 string deviceName = rule.DeviceName.ToString();
 
                 // Get the correct device by name from DB. 
                 device = SettingsFromDB.GetDeviceByName(deviceName);
+
+                // Log the progress with an Informational LogLevel:
+                Logger.Log(3,$"RuleProcessing for rule: {rule.Name} for file: {fileName} RulesInList: {RuleLength}");
  
                 // Add rule and device to RuleEngine call, the this.dicomFile can be pulled in from the instance.
                 RuleEngine(rule, device);
 
             }
+
+            // Clear the list after, for some reason the rules list just kept more rules each time a new file came in.
+            routingRules.Clear();
+
+            // Move the file out of Incoming Directory after loading into memory. 
+            FileMover.Move(fileName);
         }
 
         public void RuleEngine(RoutingRule rule, Device device)

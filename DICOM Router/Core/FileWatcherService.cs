@@ -71,7 +71,7 @@ namespace DICOM_Router.Core
         {
             // Check if the file is already in the Cache. If so avoid it.
             // This was added because irratic behavior where the same file
-            // was handled several times.
+            // was handled several times.      BUG was actually in RulesProcessor... not here. This maybe can go away?
             if (_memCache.Contains(e.FullPath))
             {
                 return;

@@ -34,11 +34,11 @@ namespace DICOM_Router.Core
             }
             catch (FileNotFoundException)
             {
-                Debug.WriteLine("The source file was not found.");
+                Logger.Log(1, "[ERROR] The source file was not found.");
             }
             catch (IOException ex)
             {
-                Debug.WriteLine($"An I/O error occurred: {ex.Message}");
+                Logger.Log(1,$"[ERROR] An I/O error occurred on file {fileName}: {ex.Message}");
             }
 
         }

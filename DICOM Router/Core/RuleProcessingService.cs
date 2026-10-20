@@ -23,10 +23,6 @@ namespace DICOM_Router.Core
 
         public void Start(string fileName)
         {
-
-            // Loop through list and process each rule to the dicomFile.
-            int RuleLength = this.routingRules.Count;
-
             foreach (RoutingRule rule in this.routingRules)
             {
                 // Get Device Name from current rule, if rule matches we send to this device.
@@ -36,10 +32,10 @@ namespace DICOM_Router.Core
                 device = SettingsFromDB.GetDeviceByName(deviceName);
 
                 // Log the progress with an Informational LogLevel:
-                Logger.Log(3,$"RuleProcessing for rule: {rule.Name} for file: {fileName} RulesInList: {RuleLength}");
+                Logger.Log(3,$"RuleProcessing for rule: {rule.Name} for file: {fileName}");
  
                 // Add rule and device to RuleEngine call, the this.dicomFile can be pulled in from the instance.
-                RuleEngine(rule, device);
+                RuleEngine(rule, device, fileName);
 
             }
 
@@ -50,7 +46,7 @@ namespace DICOM_Router.Core
             FileMover.Move(fileName);
         }
 
-        public void RuleEngine(RoutingRule rule, Device device)
+        public void RuleEngine(RoutingRule rule, Device device, string fileName)
         {
             // Determine which type of Rule this is:
             // 0 = AutoRoute all studies no conditions.
@@ -62,9 +58,11 @@ namespace DICOM_Router.Core
             {
                 case "0":
                     SendFile(device, rule, this.sourceDicomFile);
+                    Logger.Log(3, $"Rule {rule.Name} match for {fileName}");
                     break;
                 case "1":
                     TagMatchesValue(rule, device, this.sourceDicomFile);
+                    Logger.Log(3, $"Rule {rule.Name} match for {fileName}");
                     break;
                 case "2":
                     break;
@@ -108,6 +106,7 @@ namespace DICOM_Router.Core
         {
             InsertOutputDB insertOutputDB = new InsertOutputDB(rule, dicomFile);
             int recordID = insertOutputDB.Insert();
+            Logger.Log(3,$"Sending file to {device.DeviceName}.");
 
             ScuSendService scu = new ScuSendService(device);
 

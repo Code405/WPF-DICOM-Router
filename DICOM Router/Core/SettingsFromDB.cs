@@ -14,6 +14,7 @@ namespace DICOM_Router.Core
         private static Server ?server;
         public static void LoadSettingsFromDB()
         {
+            Logger.Log(3, "Loading files from Database into application. ");
             // TODO:
 
 
@@ -60,13 +61,14 @@ namespace DICOM_Router.Core
             return routingRules;
         }
 
-        public static void GetServerSettingsFromDB()
+        public static Server GetServerSettingsFromDB()
         {
             // Simulated load of data from DB.. TESTING
             server.AeTitle = "StoreSCP";
             server.Port = 11112;
-            server.LoggingMode = 0;
+            server.LoggingMode = 1;
 
+            return server;
         }
 
         public static Device GetDeviceByName(string deviceName)
